@@ -1,91 +1,310 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Protocol",
+  "openapi": ["/openapi.json"],
   "logo": {
     "dark": "/logo/dark.svg",
     "light": "/logo/light.svg"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#4f46e5",
+    "light": "#4f46e5",
+    "dark": "#4f46e5",
     "anchors": {
       "from": "#0D9373",
-      "to": "#07C983"
+      "to": "#4f46e5"
     }
   },
   "topbarLinks": [
     {
       "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "url": "mailto:info@pxyz.dev"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://studio.pxyz.dev"
   },
   "tabs": [
     {
-      "name": "API Reference",
-      "url": "api-reference"
+      "name": "Backend API Reference",
+      "url": "backend-api-reference"
+    },
+    {
+      "name": "Frontend API Reference",
+      "url": "frontend-api-reference"
     }
   ],
   "anchors": [
     {
       "name": "Documentation",
       "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "url": "https://docs.pxyz.dev"
     },
     {
       "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
+      "icon": "discord",
+      "url": "https://discord.com/channels/1066048825288052777/1066048825288052780"
     },
     {
       "name": "Blog",
       "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "url": "https://www.pxyz.dev/blog"
     }
   ],
   "navigation": [
     {
       "group": "Get Started",
+      "pages": ["introduction", "quickstart", "development"]
+    },
+
+    {
+      "group": "Backend API Documentation",
+      "pages": ["backend-api-reference/introduction"]
+    },
+    {
+      "group": "Tenant",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "backend-api-reference/tenant/get-tenant-brand-properties",
+        "backend-api-reference/tenant/update-tenant-brand-properties",
+        "backend-api-reference/tenant/get-an-auth-tenant-env-vars",
+        "backend-api-reference/tenant/rotate-tenant-secret-key",
+        "backend-api-reference/tenant/get-all-tenants",
+        "backend-api-reference/tenant/create-tenant",
+        "backend-api-reference/tenant/get-tenant-by-public-key",
+        "backend-api-reference/tenant/[tenantsgetbyslug]-get-tenant-by-slug",
+        "backend-api-reference/tenant/get-tenant-by-id",
+        "backend-api-reference/tenant/update-tenant",
+        "backend-api-reference/tenant/delete-tenant",
+        "backend-api-reference/tenant/get-tenant-subscription",
+        "backend-api-reference/tenant/get-tenant-members",
+        "backend-api-reference/tenant/delete-tenant-member",
+        "backend-api-reference/tenant/update-tenant-member",
+        "backend-api-reference/tenant/invite-tenant-member",
+        "backend-api-reference/tenant/get-tenant-invitations",
+        "backend-api-reference/tenant/delete-tenant-invitation",
+        "backend-api-reference/tenant/update-tenant-invitation",
+        "backend-api-reference/tenant/get-an-tenant",
+        "backend-api-reference/tenant/update-an-tenant",
+        "backend-api-reference/tenant/update-an-tenants-session-settings"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Domain",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        "backend-api-reference/domain/get-all-domains",
+        "backend-api-reference/domain/create-domain",
+        "backend-api-reference/domain/get-domain-by-id",
+        "backend-api-reference/domain/delete-domain",
+        "backend-api-reference/domain/verify-domain",
+        "backend-api-reference/domain/set-domain-as-primary"
       ]
     },
     {
-      "group": "API Documentation",
+      "group": "Stats",
       "pages": [
-        "api-reference/introduction"
+        "backend-api-reference/stats/get-recent-sign-ups",
+        "backend-api-reference/stats/get-recent-sign-ins",
+        "backend-api-reference/stats/get-sign-ups-by-day",
+        "backend-api-reference/stats/get-sessions-by-day",
+        "backend-api-reference/stats/get-all-dashboard-stats",
+        "backend-api-reference/stats/get-uploads-by-day",
+        "backend-api-reference/stats/get-upload-size-by-day",
+        "backend-api-reference/stats/get-all-dashboard-stats-1",
+        "backend-api-reference/stats/get-notifications-per-day",
+        "backend-api-reference/stats/get-all-dashboard-stats-2",
+        "backend-api-reference/stats/get-all-content-dashboard-stats"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "User",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "backend-api-reference/user/get-all-users",
+        "backend-api-reference/user/create-a-user",
+        "backend-api-reference/user/get-a-user",
+        "backend-api-reference/user/update-a-user",
+        "backend-api-reference/user/delete-a-user",
+        "backend-api-reference/user/change-a-users-password",
+        "backend-api-reference/user/suspend-a-user",
+        "backend-api-reference/user/unsuspend-a-user",
+        "backend-api-reference/user/get-all-phonenumbers-for-a-tenant",
+        "backend-api-reference/user/get-all-user-phonenumbers",
+        "backend-api-reference/user/get-a-user-phonenumber",
+        "backend-api-reference/user/create-a-user-phonenumber",
+        "backend-api-reference/user/delete-an-phonenumber",
+        "backend-api-reference/user/make-an-phonenumber-the-primary-phonenumber-for-a-user",
+        "backend-api-reference/user/verify-an-phonenumber",
+        "backend-api-reference/user/get-all-user-emailaddresses",
+        "backend-api-reference/user/get-all-user-emailaddresses-1",
+        "backend-api-reference/user/get-a-user-emailaddress",
+        "backend-api-reference/user/update-a-user-emailaddress",
+        "backend-api-reference/user/create-a-user-emailaddress",
+        "backend-api-reference/user/delete-an-emailaddress",
+        "backend-api-reference/user/make-an-emailaddress-the-primary-emailaddress-for-a-user",
+        "backend-api-reference/user/verify-an-emailaddress",
+        "backend-api-reference/user/get-the-current-user",
+        "backend-api-reference/user/list-all-tenant-invitations-for-the-current-user",
+        "backend-api-reference/user/accept-a-tenant-invitation",
+        "backend-api-reference/user/decline-a-tenant-invitation"
+      ]
+    },
+    {
+      "group": "Organization",
+      "pages": [
+        "backend-api-reference/organization/get-all-organizations",
+        "backend-api-reference/organization/get-an-organization",
+        "backend-api-reference/organization/update-an-organization",
+        "backend-api-reference/organization/delete-an-organization",
+        "backend-api-reference/organization/create-an-organization"
+      ]
+    },
+    {
+      "group": "OrganizationMembership",
+      "pages": [
+        "backend-api-reference/organizationmembership/get-all-organizationmemberships",
+        "backend-api-reference/organizationmembership/get-an-organizationmembership",
+        "backend-api-reference/organizationmembership/update-an-organizationmembership",
+        "backend-api-reference/organizationmembership/delete-an-organizationmembership",
+        "backend-api-reference/organizationmembership/create-an-organizationmembership"
+      ]
+    },
+    {
+      "group": "OrganizationInvitation",
+      "pages": [
+        "backend-api-reference/organizationinvitation/get-all-organizationinvitations",
+        "backend-api-reference/organizationinvitation/get-an-organizationinvitation",
+        "backend-api-reference/organizationinvitation/update-an-organizationinvitation",
+        "backend-api-reference/organizationinvitation/delete-an-organizationinvitation",
+        "backend-api-reference/organizationinvitation/create-an-organizationinvitation"
+      ]
+    },
+    {
+      "group": "AuthRole",
+      "pages": [
+        "backend-api-reference/authrole/get-all-authroles",
+        "backend-api-reference/authrole/get-an-authrole",
+        "backend-api-reference/authrole/update-a-role",
+        "backend-api-reference/authrole/delete-a-role",
+        "backend-api-reference/authrole/create-a-role"
+      ]
+    },
+    {
+      "group": "Session",
+      "pages": [
+        "backend-api-reference/session/get-all-sessions",
+        "backend-api-reference/session/get-all-sessions-for-a-user",
+        "backend-api-reference/session/get-a-session",
+        "backend-api-reference/session/delete-a-session"
+      ]
+    },
+    {
+      "group": "SocialProvider",
+      "pages": [
+        "backend-api-reference/socialprovider/get-all-socialproviders",
+        "backend-api-reference/socialprovider/create-an-socialprovider",
+        "backend-api-reference/socialprovider/get-a-socialproviders-secret",
+        "backend-api-reference/socialprovider/get-an-socialprovider",
+        "backend-api-reference/socialprovider/update-an-socialprovider",
+        "backend-api-reference/socialprovider/delete-a-socialprovider"
+      ]
+    },
+    {
+      "group": "JWKCertificate",
+      "pages": ["backend-api-reference/jwkcertificate/get-all-jwkcertificates"]
+    },
+    {
+      "group": "SignInAttempt",
+      "pages": [
+        "backend-api-reference/signinattempt/get-all-signinattempts",
+        "backend-api-reference/signinattempt/get-a-signinattempt",
+        "backend-api-reference/signinattempt/delete-a-signinattempt"
+      ]
+    },
+    {
+      "group": "SignUpAttempt",
+      "pages": [
+        "backend-api-reference/signupattempt/get-all-signupattempts",
+        "backend-api-reference/signupattempt/get-a-signupattempt",
+        "backend-api-reference/signupattempt/delete-a-signupattempt"
+      ]
+    },
+    {
+      "group": "Upload",
+      "pages": [
+        "backend-api-reference/upload/get-all-tenant-uploads",
+        "backend-api-reference/upload/get-a-single-upload",
+        "backend-api-reference/upload/delete-a-single-upload",
+        "backend-api-reference/upload/create-a-new-upload"
+      ]
+    },
+    {
+      "group": "Transformation",
+      "pages": [
+        "backend-api-reference/transformation/get-all-tenant-transformations",
+        "backend-api-reference/transformation/get-a-single-transformation",
+        "backend-api-reference/transformation/delete-a-single-transformation",
+        "backend-api-reference/transformation/update-a-single-transformation",
+        "backend-api-reference/transformation/create-a-new-transformation"
+      ]
+    },
+    {
+      "group": "File",
+      "pages": [
+        "backend-api-reference/file/get-all-tenant-files",
+        "backend-api-reference/file/get-a-single-file",
+        "backend-api-reference/file/delete-a-single-file"
+      ]
+    },
+    {
+      "group": "NotificationTemplate",
+      "pages": [
+        "backend-api-reference/notificationtemplate/get-all-notificationtemplates",
+        "backend-api-reference/notificationtemplate/get-notificationtemplate-by-id",
+        "backend-api-reference/notificationtemplate/update-notificationtemplate",
+        "backend-api-reference/notificationtemplate/delete-notificationtemplate",
+        "backend-api-reference/notificationtemplate/create-notificationtemplate",
+        "backend-api-reference/notificationtemplate/get-notificationtemplate-content",
+        "backend-api-reference/notificationtemplate/update-notificationtemplate-content",
+        "backend-api-reference/notificationtemplate/test-notificationtemplate",
+        "backend-api-reference/notificationtemplate/clone-all-notificationtemplates-to-a-new-tenant"
+      ]
+    },
+    {
+      "group": "Channel",
+      "pages": [
+        "backend-api-reference/channel/get-all-channels",
+        "backend-api-reference/channel/get-channel-by-id",
+        "backend-api-reference/channel/update-channel",
+        "backend-api-reference/channel/delete-channel",
+        "backend-api-reference/channel/create-channel"
+      ]
+    },
+    {
+      "group": "Notification",
+      "pages": [
+        "backend-api-reference/notification/create-a-notification",
+        "backend-api-reference/notification/list-email-notifications",
+        "backend-api-reference/notification/list-sms-notifications",
+        "backend-api-reference/notification/list-webhook-notifications",
+        "backend-api-reference/notification/list-push-notifications",
+        "backend-api-reference/notification/list-in-app-notifications"
+      ]
+    },
+    {
+      "group": "Schema",
+      "pages": [
+        "backend-api-reference/schema/get-all-tenant-schemas",
+        "backend-api-reference/schema/get-a-single-schema",
+        "backend-api-reference/schema/delete-a-single-schema",
+        "backend-api-reference/schema/update-a-single-schema",
+        "backend-api-reference/schema/create-a-new-schema"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "twitter": "https://twitter.com/pxyz_dev",
+    "github": "https://github.com/protoxyz",
+    "linkedin": "https://www.linkedin.com/company/pxyz"
   }
 }
