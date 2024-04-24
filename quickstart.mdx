@@ -269,3 +269,35 @@ export default function middleware(req: NextRequest) {
   return NextResponse.next();
 }
 ```
+
+### Step 9. Passing user data to client components
+
+You can easily pass user data to client components from the server. For example, create a new component in `components/user-button.tsx`. Add the following code:
+
+```tsx
+import type { UserSession } from "@protoxyz/auth";
+export default function UserButton({ user }: { user: UserSession["claims"] }) {
+  return (
+    <button>
+      {user.name} - {user.email}
+    </button>
+  );
+}
+```
+
+And then call it from your protected page:
+
+```tsx
+import { protectPage } from "@/lib/auth";
+import UserButton from "@/components/user-button";
+
+export default function OnboardPage() {
+  const session = protectPage();
+
+  return (
+    <div>
+      <UserButton user={session.claims} />
+    </div>
+  );
+}
+```
