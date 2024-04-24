@@ -53,7 +53,7 @@ PXYZ_SECRET_KEY=...
 
 </CodeGroup>
 
-### Step 4. Protect pages (app router)
+### Step 4. Project setup (app router)
 
 Add the following code to lib/auth.ts:
 
@@ -90,20 +90,182 @@ export const protectPage = async (options?: ProtectOptions) => {
 
   return session;
 };
+
+// Returns the URL to the hosted accounts page
+export const getAccountsUrl = ({ path = "/" }: { path?: string } = {}) => {
+  return new URL(path, `https://${process.env.NEXT_PUBLIC_PXYZ_DOMAIN}`);
+};
+
+// Returns the URL to the login path on the hosted accounts page
+export const getLoginUrl = (redirectPath: string | undefined = "/") => {
+  const url = getAccountsUrl({ path: "/sign-in" });
+  const redirectUri = new URL("/api/auth/callback", getWebUrl());
+  redirectUri.searchParams.set("redirectPath", redirectPath);
+
+  url.searchParams.set("redirectUri", redirectUri.toString());
+
+  return url.toString();
+};
+
+// Returns the URL to the sign up path on the hosted accounts page
+export const getSignupUrl = (redirectPath: string | undefined = "/onboard") => {
+  const url = getAccountsUrl({ path: "/sign-up" });
+  const redirectUri = new URL("/api/auth/callback", getWebUrl());
+  redirectUri.searchParams.set("redirectPath", redirectPath);
+
+  url.searchParams.set("redirectUri", redirectUri.toString());
+
+  return url.toString();
+};
+
+// Returns the URL to this page
+export function getWebUrl() {
+  return process.env.NODE_ENV === "production"
+    ? `https://www.yourdomain.com`
+    : "http://localhost:3000";
+}
 ```
+
+Whenever you need to determine whether or not a user is authenticated, you can use the `auth` function. If the user is not authenticated, the function will return `null`. If the user is authenticated, the function will return the verified JWT object.
+
+Add an api route to handle the callback from the hosted accounts page. Create a new file called `app/api/auth/callback.ts`. Add the following code:
+
+````ts
+import type { NextRequest } from "next/server"
+import { NextResponse } from "next/server"
+
+import { getCookieOptions, getSecretKey, verifyJWT } from "@protoxyz/auth"
+
+export const GET = async (req: NextRequest) => {
+  const url = req.nextUrl
+  const params = Object.fromEntries(url.searchParams.entries())
+  const token = params.jwt
+  const redirectPath = params.redirectPath ?? "/"
+  const key = getSecretKey({})
+  const verified = token ? await verifyJWT({ token, key }) : null
+
+  if (verified) {
+
+    // Session is verified, you could sync the user object to your database here and send a welcome email, or do something else
+
+    try {
+      const cookieOptions = getCookieOptions(`${url.protocol}//${url.hostname}`)
+
+      url.searchParams.delete("token")
+      url.searchParams.delete("redirectPath")
+
+      const redirectUrl = new URL(redirectPath, url)
+      const response = NextResponse.redirect(redirectUrl)
+
+      response.cookies.set("__pxyz_session", token, {
+        ...cookieOptions,
+      })
+
+      return response
+    } catch (err) {
+      console.error("FAILED TO GET COOKIE OPTIONS")
+      console.error(err)
+    }
+  } else {
+    console.error("Failed to verify JWT token")
+  }
+
+  return NextResponse.redirect(new URL("/?error=true", url))
+}
+
+
 
 ### Step 5. Protect pages (app router)
 
-Add the following code to your app router:
+Create a new page in your project that you want to secure. For example, create a new file called `app/onboard/page.tsx`. Add the following code:
+
+```ts
+import { protectPage } from "@/lib/auth";
+
+export default function OnboardPage() {
+  const session = protectPage();
+
+  return (
+    <div>
+      Welcome to the onboarding page! Only logged in users can see this.
+    </div>
+  );
+}
+````
+
+### Step 6. Protect api routes (app router)
+
+Create a new file called `app/api/protected/route.ts`. Add the following code:
+
+```ts
+import { auth } from "@/lib/auth";
+import { NextApiRequest, NextApiResponse } from "next";
+
+export default async function GET(req: NextApiRequest) {
+  const session = await auth();
+
+  if (!session) {
+    return res.json({ error: "Unauthorized" });
+  }
+
+  return res.json({ message: "Hello, secret message!" });
+}
+```
+
+### Step 7. Protecting server actions
+
+You can also protect server actions by calling the `auth` function. For example, if your actions are in lib/actions.ts add the following code:
+
+```ts
+"use server";
+import "server-only";
+import { auth } from "@/lib/auth";
+
+export async function createTask(formData: FormData) {
+  const session = await auth();
+
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  // Create a new task
+}
+```
+
+### Step 8. Checking if a user is authenticated in middleware
+
+You can also check if a user is authenticated in middleware. For example, if you want to check if a user is authenticated in a middleware, add the following code:
 
 ```ts
 import { auth } from "@/lib/auth";
 
-export const config = {
-  runtime: "edge",
-  middlewareStack: [
-    auth.middleware,
-    // ... other middleware
-  ],
-};
+export default function middleware(req: NextRequest) {
+  const session = await auth();
+
+  if (!session) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
+  return NextResponse.next();
+}
+```
+
+If you only need to check if a user is authenticated, you can use the `getToken` function. For example:
+
+```ts
+import { getToken } from "@protoxyz/auth";
+
+export default function middleware(req: NextRequest) {
+  const token = getToken(req);
+
+  if (!token) {
+    return new Response("No token found, user is not logged in", {
+      status: 401,
+    });
+  }
+
+  // User is probably authenticated, or at least has a token set
+
+  return NextResponse.next();
+}
 ```
