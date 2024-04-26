@@ -58,23 +58,12 @@ PXYZ_SECRET_KEY=...
 Add the following code to lib/auth.ts:
 
 ```ts
-import { getAuth } from "@protoxyz/auth";
+import { auth } from "@protoxyz/auth";
+import { redirect } from "next/navigation";
 
 interface ProtectOptions {
   role?: string;
   orgRole?: string;
-}
-
-export async function auth() {
-  const session = await getAuth({
-    secretKey: process.env.PXYZ_SECRET_KEY,
-  });
-
-  if (!session) {
-    return null;
-  }
-
-  return session;
 }
 
 export const protectPage = async (options?: ProtectOptions) => {
